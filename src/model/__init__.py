@@ -11,5 +11,8 @@ session = Session()
 
 base.metadata.create_all(engine)
 
-from src.model.Vol import Vol
+from src.model.Flight import Vol
 from src.model.User import User
+from src.model.Aeroport import Aeroport
+from src.model.FlightCompany import FlightCompany
+from src.model.Reservation import Reservation
