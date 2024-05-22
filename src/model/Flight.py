@@ -34,10 +34,17 @@ class Flight(base):
         self.idArrivalAeroport = idArrivalAeroport
 
     def __repr__(self):
-        return f"<Flight {self.idFlight} {self.idDepartureAeroport} {self.idArrivalAeroport} {self.DepartureDate} {self.ArrivalDate}>"
+        return (f"<Flight {self.idFlight} {self.idDepartureAeroport} "
+                f"{self.idArrivalAeroport} {self.DepartureDate} "
+                f"{self.ArrivalDate}>")
 
     def __str__(self):
-        return f"Vol {self.idFlight} de {self.idDepartureAeroport} à {self.idArrivalAeroport} le {self.DepartureDate}"
+        return (f"Vol {self.idFlight} de {self.idDepartureAeroport} à "
+                f"{self.idArrivalAeroport} le {self.DepartureDate}")
+
+    def print(self):
+        return (f"{self.idDepartureAeroport} : {self.DepartureDate} - "
+                f"{self.idArrivalAeroport} ")
 
     @staticmethod
     def get_by_id(idFlight: int) -> 'Flight':

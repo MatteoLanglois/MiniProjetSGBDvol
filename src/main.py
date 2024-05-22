@@ -156,6 +156,16 @@ class VolApp(vtk.Tk):
         question = "Cette fonctionnalité n'est pas encore implémentée"
         showwarning(titre, question)
 
+    def reserver(self, vol):
+        if self.is_connected:
+            reservation = db.Reservation(self.userConnected.idUser,
+                                         vol.idFlight)
+            db.session.add(reservation)
+            db.session.commit()
+            self.show_frame(viewMain.ViewMain)
+        else:
+            self.show_frame(viewConnexion.ViewConnexion)
+
 
 """
 Fonction main
