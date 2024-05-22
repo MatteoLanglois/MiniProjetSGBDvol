@@ -1,3 +1,4 @@
+from src.model import Flight
 from src.views.view import view
 import tkinter as vtk
 from src.views import viewInscription
@@ -16,3 +17,9 @@ class viewVolDetails(view):
         self.controller = controller
         self.init_widget()
         self.title = "Détails du vol"
+
+    def init_widget(self):
+        pass
+
+    def change_data(self, vol: 'Flight'):
+        pass
