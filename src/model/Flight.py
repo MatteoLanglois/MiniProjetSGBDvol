@@ -18,7 +18,7 @@ class Flight(base):
     idDepartureAeroport = Column(Integer, ForeignKey('Airport.idAeroport'))
     idArrivalAeroport = Column(Integer, ForeignKey('Airport.idAeroport'))
 
-    flightcompany = relationship('FlightCompany', backref='flightcompany')
+    flight_flightcompany = relationship('FlightCompany', backref='flight_flightcompany')
     departure_aeroport = relationship('Aeroport', backref='departure_aeroport', foreign_keys='Flight.idDepartureAeroport')
     arrival_aeroport = relationship('Aeroport', backref='arrival_aeroport', foreign_keys='Flight.idArrivalAeroport')
 
