@@ -6,7 +6,7 @@ from src.model import base, session
 
 
 class Aeroport(base):
-    __tablename__ = 'aeroports'
+    __tablename__ = 'Airport'
     idAeroport = Column(Integer, primary_key=True)
     nomAeroport = Column(String(255))
     villeAeroport = Column(String(255))

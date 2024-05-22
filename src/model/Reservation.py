@@ -7,9 +7,9 @@ from datetime import datetime
 
 
 class Reservation(base):
-    __tablename__ = 'reservations'
-    idUser = Column(Integer, ForeignKey('users.idUser'), primary_key=True)
-    idFlight = Column(Integer, ForeignKey('flights.idFlight'), primary_key=True)
+    __tablename__ = 'Reservation'
+    idUser = Column(Integer, ForeignKey('User.idUser'), primary_key=True)
+    idFlight = Column(Integer, ForeignKey('Flight.idFlight'), primary_key=True)
     ReservationDate = Column(DateTime)
 
     user = relationship('User', backref='user')

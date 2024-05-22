@@ -7,7 +7,7 @@ from src.model import base, session, Flight
 
 
 class FlightCompany(base):
-    __tablename__ = 'flightcompanies'
+    __tablename__ = 'FlightCompany'
     idFlightCompany = Column(Integer, primary_key=True)
     nameFlightCompany = Column(String(255))
 

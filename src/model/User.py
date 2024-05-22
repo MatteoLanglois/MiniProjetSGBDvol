@@ -17,12 +17,17 @@ Elle contient les attributs suivants :
 
 
 class User(base):
-    __tablename__ = 'users'
+    __tablename__ = 'User'
     idUser = Column(Integer, primary_key=True)
     prenomUser = Column(String(50))
     nomUser = Column(String(50))
     mailUser = Column(String(50))
     mdpUser = Column(String(255))
+    flightCompany = Column(Integer,
+                           ForeignKey('FlightCompany.idFlightCompany'),
+                           nullable=True)
+
+    flightcompany = relationship('FlightCompany', backref='flightcompany')
 
     """
     Méthode __init__

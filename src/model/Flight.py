@@ -7,16 +7,16 @@ from datetime import datetime
 
 
 class Flight(base):
-    __tablename__ = "flights"
+    __tablename__ = "Flight"
     idFlight = Column(Integer, primary_key=True)
     Price = Column(Float)
     DepartureDate = Column(DateTime)
     ArrivalDate = Column(DateTime)
     PlaneName = Column(String(50))
     FightCapacity = Column(Integer)
-    idFlightCompany = Column(Integer, ForeignKey('flightcompanies.idFlightCompany'))
-    idDepartureAeroport = Column(Integer, ForeignKey('aeroports.idAeroport'))
-    idArrivalAeroport = Column(Integer, ForeignKey('aeroports.idAeroport'))
+    idFlightCompany = Column(Integer, ForeignKey('FlightCompany.idFlightCompany'))
+    idDepartureAeroport = Column(Integer, ForeignKey('Airport.idAeroport'))
+    idArrivalAeroport = Column(Integer, ForeignKey('Airport.idAeroport'))
 
     flightcompany = relationship('FlightCompany', backref='flightcompany')
     departure_aeroport = relationship('Aeroport', backref='departure_aeroport', foreign_keys='Flight.idDepartureAeroport')
