@@ -1,4 +1,4 @@
-from src.view.view import view
+from src.views.view import view
 import tkinter as vtk
 from src.views import viewInscription
 

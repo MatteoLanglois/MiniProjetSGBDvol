@@ -21,7 +21,7 @@ class view(vtk.Frame):
     def __init__(self, parent, controller):
         vtk.Frame.__init__(self, parent)
         self.controller = controller
-        self.title = "Le Bon Angle"
+        self.title = "Vol"
 
     """
     Méthode init_header
@@ -30,9 +30,10 @@ class view(vtk.Frame):
     dans quasiment toutes les autres vues de l'application.    
     """
     def init_header(self):
+        from src.views import viewAccount, viewConnexion
         from src.views import viewMain
         label_title = vtk.Label(self, self.font_style("title"),
-                                text="Le Bon Angle", anchor='center')
+                                text="Vol", anchor='center')
         label_title.grid(column=0, row=1, columnspan=5, pady=10, padx=10,
                          sticky='n')
 
@@ -41,7 +42,6 @@ class view(vtk.Frame):
                                      viewMain.ViewMain))
         button_home.grid(column=0, row=0, pady=10, padx=10, sticky='w')
 
-        '''
         if self.controller.is_connected:
             button_account = vtk.Button(self, self.button_style(),
                                         text="Mon compte",
@@ -61,7 +61,6 @@ class view(vtk.Frame):
                                           self.controller.show_frame(
                                               viewConnexion.ViewConnexion))
             button_connexion.grid(column=10, row=0, pady=10, padx=10)
-        '''
 
     """
     Méthode button_style

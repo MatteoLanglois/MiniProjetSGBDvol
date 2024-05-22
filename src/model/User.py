@@ -24,9 +24,6 @@ class User(base):
     mailUser = Column(String(50))
     mdpUser = Column(String(255))
 
-    annonce_user = relationship('Annonce', backref='annonce_user')
-    offre_user = relationship('Offre', backref='offre_user')
-
     """
     Méthode __init__
     

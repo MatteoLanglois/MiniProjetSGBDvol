@@ -19,16 +19,16 @@ class Flight(base):
     idArrivalAeroport = Column(Integer, ForeignKey('aeroports.idAeroport'))
 
     flightcompany = relationship('FlightCompany', backref='flightcompany')
-    departure_aeroport = relationship('Aeroport', backref='departure_aeroport')
-    arrival_aeroport = relationship('Aeroport', backref='arrival_aeroport')
+    departure_aeroport = relationship('Aeroport', backref='departure_aeroport', foreign_keys='Flight.idDepartureAeroport')
+    arrival_aeroport = relationship('Aeroport', backref='arrival_aeroport', foreign_keys='Flight.idArrivalAeroport')
 
-    def __init__(self, Price, DepartureDate, ArrivalDate, PlaneName, FightCapacity, idFlightCompany, idDepartureAeroport, idArrivalAeroport, **kw: Any):
+    def __init__(self, Price, DepartureDate, ArrivalDate, PlaneName, FlightCapacity, idFlightCompany, idDepartureAeroport, idArrivalAeroport, **kw: Any):
         super().__init__(**kw)
         self.Price = Price
         self.DepartureDate = DepartureDate
         self.ArrivalDate = ArrivalDate
         self.PlaneName = PlaneName
-        self.FightCapacity = FightCapacity
+        self.FightCapacity = FlightCapacity
         self.idFlightCompany = idFlightCompany
         self.idDepartureAeroport = idDepartureAeroport
         self.idArrivalAeroport = idArrivalAeroport

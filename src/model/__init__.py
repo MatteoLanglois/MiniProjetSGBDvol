@@ -1,6 +1,6 @@
 from sqlalchemy import *
 from sqlalchemy.orm import *
-
+from typing import List
 
 base = declarative_base()
 engine = create_engine(
@@ -8,10 +8,9 @@ engine = create_engine(
     "-roseaux.dev/vol")
 Session = sessionmaker(bind=engine)
 session = Session()
-
 base.metadata.create_all(engine)
 
-from src.model.Flight import Vol
+from src.model.Flight import Flight
 from src.model.User import User
 from src.model.Aeroport import Aeroport
 from src.model.FlightCompany import FlightCompany
