@@ -23,7 +23,7 @@ class User(base):
     nomUser = Column(String(50))
     mailUser = Column(String(50))
     mdpUser = Column(String(255))
-    flightCompany = Column(Integer,
+    flightCompanyId = Column(Integer,
                            ForeignKey('FlightCompany.idFlightCompany'),
                            nullable=True)
 
