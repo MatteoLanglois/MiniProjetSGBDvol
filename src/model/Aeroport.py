@@ -13,6 +13,9 @@ class Aeroport(base):
 
     def __init__(self, nomAeroport, villeAeroport, **kw: Any):
         super().__init__(**kw)
+        if not session.query(Aeroport).filter(Aeroport.nomAeroport == nomAeroport).filter(Aeroport.villeAeroport == villeAeroport).first() is None:
+            raise ValueError("Aeroport already exists")
+
         self.nomAeroport = nomAeroport
         self.villeAeroport = villeAeroport
 

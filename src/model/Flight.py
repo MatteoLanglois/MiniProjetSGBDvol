@@ -1,6 +1,6 @@
 from sqlalchemy import *
 from sqlalchemy.orm import *
-from src.model import base, session, Aeroport
+from src.model import base, session, Aeroport, Reservation
 
 from typing import List
 from datetime import datetime
@@ -22,8 +22,17 @@ class Flight(base):
     departure_aeroport = relationship('Aeroport', backref='departure_aeroport', foreign_keys='Flight.idDepartureAeroport')
     arrival_aeroport = relationship('Aeroport', backref='arrival_aeroport', foreign_keys='Flight.idArrivalAeroport')
 
-    def __init__(self, Price, DepartureDate, ArrivalDate, PlaneName, FlightCapacity, idFlightCompany, idDepartureAeroport, idArrivalAeroport, **kw: Any):
+    def __init__(self, Price, DepartureDate, ArrivalDate, PlaneName,
+                 FlightCapacity, idFlightCompany, idDepartureAeroport,
+                 idArrivalAeroport, **kw: Any):
         super().__init__(**kw)
+        if DepartureDate >= ArrivalDate:
+            raise ValueError("Departure date must be before arrival date")
+        if Price < 0:
+            raise ValueError("Price must be positive")
+        if FlightCapacity <= 0:
+            raise ValueError("Flight capacity must be positive")
+
         self.Price = Price
         self.DepartureDate = DepartureDate
         self.ArrivalDate = ArrivalDate
@@ -89,4 +98,10 @@ class Flight(base):
     @staticmethod
     def get_flight_departure_arrival_airport(idDepartureAeroport: int, idArrivalAeroport: int) -> List['Flight']:
         return session.query(Flight).filter(Flight.idDepartureAeroport == idDepartureAeroport).filter(Flight.idArrivalAeroport == idArrivalAeroport).all()
+
+    def get_reservations(self) -> List['Reservation']:
+        return session.query(Reservation).filter(Reservation.idFlight == self.idFlight).all()
+
+    def get_free_seats(self) -> int:
+        return self.FightCapacity - len(self.get_reservations())
 

@@ -32,6 +32,9 @@ class User(base):
 
     def __init__(self, prenomUser, nomUser, mailUser, mdpUser, **kw: Any):
         super().__init__(**kw)
+        if not session.query(User).filter(User.mailUser == mailUser).first() is None:
+            raise ValueError("User already exists")
+
         self.prenomUser = prenomUser
         self.nomUser = nomUser
         self.mailUser = mailUser
