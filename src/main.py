@@ -1,7 +1,8 @@
 from tkinter import ttk
 import tkinter as vtk
 from tkinter.messagebox import *
-from src.views import (viewMain, viewConnexion, viewInscription)
+from src.views import (viewMain, viewConnexion, viewInscription, viewAccount,
+                       viewVolDetails)
 import src.model as db
 
 """
@@ -30,7 +31,8 @@ class VolApp(vtk.Tk):
         container.grid_columnconfigure(0, weight=1)
         self.frames = {}
         for F in (viewMain.ViewMain, viewConnexion.ViewConnexion,
-                  viewInscription.viewInscription):
+                  viewInscription.viewInscription, viewAccount.viewAccount,
+                  viewVolDetails.viewVolDetails):
             frame = F(container, self)
             frame.place(x=0, y=0, anchor="nw", width=400, height=300)
             self.frames[F] = frame

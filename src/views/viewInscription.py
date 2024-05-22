@@ -16,6 +16,7 @@ class viewInscription(view):
 
     Constructeur de la classe
     """
+
     def __init__(self, parent, controller):
         vtk.Frame.__init__(self, parent)
         self.controller = controller
@@ -28,6 +29,7 @@ class viewInscription(view):
     
     Méthode permettant d'initialiser les widgets de la vue
     """
+
     def init_widget(self):
         self.init_header()
 
@@ -72,37 +74,6 @@ class viewInscription(view):
         entry_password_confirm = vtk.Entry(self, self.entry_style(), show="*")
         entry_password_confirm.grid(column=1, row=6, pady=10, padx=10)
 
-        label_ville = vtk.Label(self, self.font_style("label"), text="Ville")
-        label_ville.grid(column=3, row=2, pady=10, padx=10)
-
-        entry_ville = vtk.Entry(self, self.entry_style())
-        entry_ville.grid(column=4, row=2, pady=10, padx=10)
-
-        label_code_postal = vtk.Label(self, self.font_style("label"),
-                                      text="Code postal")
-        label_code_postal.grid(column=3, row=3, pady=10, padx=10)
-
-        entry_code_postal = vtk.Entry(self, self.entry_style())
-        entry_code_postal.grid(column=4, row=3, pady=10, padx=10)
-
-        label_rue = vtk.Label(self, self.font_style("label"), text="Rue")
-        label_rue.grid(column=3, row=4, pady=10, padx=10)
-
-        entry_rue = vtk.Entry(self, self.entry_style())
-        entry_rue.grid(column=4, row=4, pady=10, padx=10)
-
-        label_numero = vtk.Label(self, self.font_style("label"), text="Numéro")
-        label_numero.grid(column=3, row=5, pady=10, padx=10)
-
-        entry_numero = vtk.Entry(self, self.entry_style())
-        entry_numero.grid(column=4, row=5, pady=10, padx=10)
-
-        label_complement = vtk.Label(self, self.font_style("label"), text="Complément")
-        label_complement.grid(column=3, row=6, pady=10, padx=10)
-
-        entry_complement = vtk.Entry(self, self.entry_style())
-        entry_complement.grid(column=4, row=6, pady=10, padx=10)
-
         button_inscription = vtk.Button(self, self.button_style(),
                                         text="Inscription",
                                         command=lambda:
@@ -111,12 +82,7 @@ class viewInscription(view):
                                             entry_nom.get(),
                                             entry_login.get(),
                                             entry_password.get(),
-                                            entry_password_confirm.get(),
-                                            entry_ville.get(),
-                                            entry_code_postal.get(),
-                                            entry_rue.get(),
-                                            entry_numero.get(),
-                                            entry_complement.get())
+                                            entry_password_confirm.get())
                                         )
         button_inscription.grid(column=3, row=7, padx=10, pady=10)
 
@@ -125,9 +91,9 @@ class viewInscription(view):
     
     Méthode permettant de s'inscrire
     """
+
     def inscription(self, prenom: str, nom: str, email: str, password: str,
-                    password_confirm: str, ville: str, code_postal: str,
-                    rue: str, numero: str, complement: str):
+                    password_confirm: str):
         if password != password_confirm:
             self.label_error.config(
                 text="Les mots de passe ne correspondent pas")
@@ -135,16 +101,12 @@ class viewInscription(view):
         if db.User.getByEmail(email) is not None:
             self.label_error.config(text="Cet email est déjà utilisé")
             return
-        if (not prenom or not nom or not email or not password or not ville
-                or not code_postal or not rue or not numero):
+        if not prenom or not nom or not email or not password:
             self.label_error.config(text="Veuillez remplir tous les champs")
             return
-        new_adresse = db.Adresse(ville, code_postal, rue, numero, complement)
-        db.session.add(new_adresse)
         db.session.commit()
 
         new_user = db.User(prenom, nom, email, password)
-        new_user.adresseUser = new_adresse.idAdresse
         db.session.add(new_user)
 
         db.session.commit()
