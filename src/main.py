@@ -1,8 +1,7 @@
 from tkinter import ttk
 import tkinter as vtk
 from tkinter.messagebox import *
-from src.views import (viewMain, viewConnexion, viewInscription, viewAccount,
-                       viewVolDetails)
+from src.views import (viewMain, viewConnexion, viewInscription, viewFormVol)
 import src.model as db
 
 """
@@ -31,8 +30,7 @@ class VolApp(vtk.Tk):
         container.grid_columnconfigure(0, weight=1)
         self.frames = {}
         for F in (viewMain.ViewMain, viewConnexion.ViewConnexion,
-                  viewInscription.viewInscription, viewAccount.viewAccount,
-                  viewVolDetails.viewVolDetails):
+                  viewInscription.viewInscription, viewFormVol.viewFormVol):
             frame = F(container, self)
             frame.place(x=0, y=0, anchor="nw", width=400, height=300)
             self.frames[F] = frame
@@ -155,16 +153,6 @@ class VolApp(vtk.Tk):
         titre = "Work in progress"
         question = "Cette fonctionnalité n'est pas encore implémentée"
         showwarning(titre, question)
-
-    def reserver(self, vol):
-        if self.is_connected:
-            reservation = db.Reservation(self.userConnected.idUser,
-                                         vol.idFlight)
-            db.session.add(reservation)
-            db.session.commit()
-            self.show_frame(viewMain.ViewMain)
-        else:
-            self.show_frame(viewConnexion.ViewConnexion)
 
 
 """

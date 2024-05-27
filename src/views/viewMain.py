@@ -1,6 +1,6 @@
-from src.model import Flight
 from src.views.view import view
 from src.views import viewVolDetails
+from src.views import viewFormVol
 import tkinter as vtk
 import src.model as db
 
@@ -43,19 +43,27 @@ class ViewMain(view):
         self.listbox.grid(column=0, row=2, columnspan=5, pady=10, padx=10)
         for index, vol in enumerate(vols):
             dict_vol[index] = vol
-            self.listbox.insert(vtk.END, vol.print())
+            self.listbox.insert(vtk.END, vol)
 
         button_reserver = vtk.Button(self, self.button_style(), text="Réserver",
                                      command=lambda: self.controller.reserver(
-                                         dict_vol[self.listbox.get(vtk.ACTIVE)])
-                                     )
+                                         self.listbox.get(vtk.ACTIVE)))
         button_reserver.grid(column=0, row=3, pady=10, padx=10)
+
+        button_add_vol = vtk.Button(self, self.button_style(), text="Ajouter un vol",
+                                    command=self.add_vol)
+        button_add_vol.grid(column=1, row=3, pady=10, padx=10)
 
     def details(self, listbox, event, dict_vol: dict):
         selected_index = listbox.nearest(event.y)
         if selected_index != -1:
-            vol = Flight.get_by_id(dict_vol[selected_index].idFlight)
             self.controller.show_frame(
                 viewVolDetails.viewVolDetails)
             (self.controller.frames[viewVolDetails.viewVolDetails]
-             .change_data(vol))
+             .change_data(dict[selected_index]))
+
+    def add_vol(self):
+        self.controller.show_frame(viewFormVol.viewFormVol)
+        (self.controller.frames[viewFormVol.viewFormVol]
+         .change_data(None))
+

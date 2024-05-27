@@ -32,3 +32,7 @@ class Aeroport(base):
     @staticmethod
     def get_all() -> List['Aeroport']:
         return session.query(Aeroport).all()
+
+    @staticmethod
+    def get_by_name(nomAeroport: str) -> 'Aeroport':
+        return session.query(Aeroport).filter(Aeroport.nomAeroport == nomAeroport).first()

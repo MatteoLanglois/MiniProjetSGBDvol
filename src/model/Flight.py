@@ -30,7 +30,7 @@ class Flight(base):
                  FlightCapacity, idFlightCompany, idDepartureAeroport,
                  idArrivalAeroport, **kw: Any):
         super().__init__(**kw)
-        if DepartureDate >= ArrivalDate:
+        if DepartureDate > ArrivalDate:
             raise ValueError("Departure date must be before arrival date")
         if Price < 0:
             raise ValueError("Price must be positive")
