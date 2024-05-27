@@ -1,7 +1,8 @@
 from tkinter import ttk
 import tkinter as vtk
 from tkinter.messagebox import *
-from src.views import (viewMain, viewConnexion, viewInscription, viewFormVol)
+from src.views import (viewMain, viewConnexion, viewInscription, viewFormVol,
+                       viewVolDetails, viewAccount)
 import src.model as db
 
 """
@@ -22,7 +23,7 @@ class VolApp(vtk.Tk):
         vtk.Tk.__init__(self)
         self.title("Vol")
         self.is_connected = False
-        self.user = None
+        self.userConnected = None
         self.frame = None
         container = ttk.Frame(self)
         container.pack(side="top", fill="both", expand=False)
@@ -30,7 +31,8 @@ class VolApp(vtk.Tk):
         container.grid_columnconfigure(0, weight=1)
         self.frames = {}
         for F in (viewMain.ViewMain, viewConnexion.ViewConnexion,
-                  viewInscription.viewInscription, viewFormVol.viewFormVol):
+                  viewInscription.viewInscription, viewFormVol.viewFormVol,
+                  viewVolDetails.viewVolDetails, viewAccount.viewAccount):
             frame = F(container, self)
             frame.place(x=0, y=0, anchor="nw", width=400, height=300)
             self.frames[F] = frame
@@ -76,7 +78,6 @@ class VolApp(vtk.Tk):
         if self.userConnected is not None:
             self.is_connected = True
             self.show_frame(viewMain.ViewMain)
-            print(self.is_connected)
         else:
             self.is_connected = False
             self.error_message("Erreur", "Erreur de connexion")

@@ -52,9 +52,9 @@ class Flight(base):
                 f"{self.ArrivalDate}>")
 
     def __str__(self):
-        return (f"Vol de {Aeroport.get_by_id(self.idDepartureAeroport)} à"
-                f"{Aeroport.get_by_id(self.idArrivalAeroport)}, le "
-                f"{self.DepartureDate} jusqu'à {self.ArrivalDate}")
+        return (f"{Aeroport.get_by_id(self.idDepartureAeroport).villeAeroport}"
+                f" - {Aeroport.get_by_id(self.idArrivalAeroport).villeAeroport}"
+                f" : {self.DepartureDate} - {self.Price}€")
 
     def print(self):
         depart = Aeroport.get_by_id(self.idDepartureAeroport)

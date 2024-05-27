@@ -13,7 +13,10 @@ class Aeroport(base):
 
     def __init__(self, nomAeroport, villeAeroport, **kw: Any):
         super().__init__(**kw)
-        if not session.query(Aeroport).filter(Aeroport.nomAeroport == nomAeroport).filter(Aeroport.villeAeroport == villeAeroport).first() is None:
+        if not (session.query(Aeroport)
+                        .filter(Aeroport.nomAeroport == nomAeroport)
+                        .filter(Aeroport.villeAeroport == villeAeroport)
+                        .first() is None):
             raise ValueError("Aeroport already exists")
 
         self.nomAeroport = nomAeroport
@@ -27,7 +30,8 @@ class Aeroport(base):
 
     @staticmethod
     def get_by_id(idAeroport: int) -> 'Aeroport':
-        return session.query(Aeroport).filter(Aeroport.idAeroport == idAeroport).first()
+        return (session.query(Aeroport)
+                .filter(Aeroport.idAeroport == idAeroport).first())
 
     @staticmethod
     def get_all() -> List['Aeroport']:
@@ -35,4 +39,5 @@ class Aeroport(base):
 
     @staticmethod
     def get_by_name(nomAeroport: str) -> 'Aeroport':
-        return session.query(Aeroport).filter(Aeroport.nomAeroport == nomAeroport).first()
+        return (session.query(Aeroport)
+                .filter(Aeroport.nomAeroport == nomAeroport).first())

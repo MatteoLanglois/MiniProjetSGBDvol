@@ -34,25 +34,25 @@ class ViewMain(view):
         dict_vol = {}
         vols = db.Flight.get_all()
         self.label_nb_annonces = vtk.Label(self, self.font_style("label"),
-                                           text="Nombre de vols : "
-                                                + str(len(dict_vol)))
+                                           text=f"{len(vols)} vols disponibles")
+        self.label_nb_annonces.grid(column=0, row=2, pady=10, padx=10)
 
-        self.listbox = vtk.Listbox(self, selectmode=vtk.SINGLE)
-        self.listbox.bind('<ButtonRelease-1>', lambda
-            event: self.details(self.listbox, event, dict_vol))
-        self.listbox.grid(column=0, row=2, columnspan=5, pady=10, padx=10)
+        self.listbox = vtk.Listbox(self, selectmode=vtk.SINGLE, width=100,
+                                   height=10, font=self.font_style("subtitle"))
+        self.listbox.bind('<ButtonRelease-1>',
+                          lambda event: self.details(self.listbox, event,
+                                                     dict_vol))
+        self.listbox.grid(column=0, row=3, columnspan=5, pady=10, padx=10)
         for index, vol in enumerate(vols):
             dict_vol[index] = vol
             self.listbox.insert(vtk.END, vol)
 
-        button_reserver = vtk.Button(self, self.button_style(), text="Réserver",
-                                     command=lambda: self.controller.reserver(
-                                         self.listbox.get(vtk.ACTIVE)))
-        button_reserver.grid(column=0, row=3, pady=10, padx=10)
-
-        button_add_vol = vtk.Button(self, self.button_style(), text="Ajouter un vol",
-                                    command=self.add_vol)
-        button_add_vol.grid(column=1, row=3, pady=10, padx=10)
+        if (self.controller.is_connected and
+                self.controller.userConnected.flightCompanyId is not None):
+            button_add_vol = vtk.Button(self, self.button_style(),
+                                        text="Ajouter un vol",
+                                        command=self.add_vol)
+            button_add_vol.grid(column=1, row=4, pady=10, padx=10)
 
     def details(self, listbox, event, dict_vol: dict):
         selected_index = listbox.nearest(event.y)
@@ -66,4 +66,3 @@ class ViewMain(view):
         self.controller.show_frame(viewFormVol.viewFormVol)
         (self.controller.frames[viewFormVol.viewFormVol]
          .change_data(None))
-
