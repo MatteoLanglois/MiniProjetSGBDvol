@@ -59,7 +59,6 @@ class VolApp(vtk.Tk):
         self.frames[cont].init_widget()
         frame = self.frames[cont]
         frame.tkraise()
-        self.title = frame.title
 
         self.update_idletasks()
 

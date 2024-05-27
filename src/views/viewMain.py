@@ -32,7 +32,6 @@ class ViewMain(view):
         self.init_widget()
         self.controller.update()
         self.controller.update_idletasks()
-        self.title = "Vol"
         self.dict_vol = {}
 
     def init_widget(self):
@@ -84,8 +83,9 @@ class ViewMain(view):
         combo_arrivee = ttk.Combobox(frame_filter, values=Aeroport.get_all())
         combo_arrivee.grid(column=1, row=3, pady=10, padx=10)
 
-        calendar = DateEntry(frame_filter, font=self.font_style("label"))
+        calendar = DateEntry(frame_filter, title="Date de départ")
         calendar.grid(column=1, row=4, pady=10, padx=10)
+
         calendar.set_date(None)
 
         button_filter = vtk.Button(frame_filter, self.button_style(),
