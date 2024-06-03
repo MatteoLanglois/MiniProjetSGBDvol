@@ -114,8 +114,8 @@ class Flight(base):
 
     @staticmethod
     def get_flight_departure_arrival_airport(idDepartureAeroport: int,
-                                             idArrivalAeroport: int) -> List[
-        'Flight']:
+                                             idArrivalAeroport: int) \
+            -> List['Flight']:
         return session.query(Flight).filter(
             Flight.idDepartureAeroport == idDepartureAeroport).filter(
             Flight.idArrivalAeroport == idArrivalAeroport).all()

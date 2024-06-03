@@ -154,6 +154,11 @@ class VolApp(vtk.Tk):
         question = "Cette fonctionnalité n'est pas encore implémentée"
         showwarning(titre, question)
 
+    def reserver(self, vol) -> None:
+        reservation = db.Reservation(self.userConnected.idUser, vol.idFlight)
+        db.session.add(reservation)
+        db.session.commit()
+
 
 """
 Fonction main

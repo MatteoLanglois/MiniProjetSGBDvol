@@ -55,6 +55,8 @@ class ViewMain(view):
             dict_vol[index] = vol
             self.listbox.insert(vtk.END, vol)
 
+        self.label_nb_annonces.config(text=f"{len(dict_vol)} vols disponibles")
+
         if (self.controller.is_connected and
                 self.controller.userConnected.flightCompanyId is not None):
             button_add_vol = vtk.Button(self, self.button_style(),

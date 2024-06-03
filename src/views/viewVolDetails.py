@@ -15,6 +15,7 @@ Vue permettant d'afficher les détails d'un vol
 class viewVolDetails(view):
     def __init__(self, parent, controller):
         vtk.Frame.__init__(self, parent)
+        self.listbox_otherflights = None
         self.controller = controller
         self.init_widget()
         self.title = "Détails du vol"
@@ -32,20 +33,23 @@ class viewVolDetails(view):
         self.label_vol = vtk.Label(self, self.font_style("label"), text="")
         self.label_vol.grid(column=0, row=2, pady=10, padx=10)
         if self.controller.is_connected:
-            button_reserver = vtk.Button(self, self.button_style(), text="Réserver",
-                                         command=lambda: self.controller.reserver(self.vol))
+            button_reserver = vtk.Button(self, self.button_style(),
+                                         text="Réserver",
+                                         command=lambda: self.controller.reserver(
+                                             self.vol))
             button_reserver.grid(column=0, row=3, pady=10, padx=10)
 
         label_otherflights = vtk.Label(self, self.font_style("label"),
-                                        text="Autres vols disponibles")
+                                       text="Autres vols disponibles")
         label_otherflights.grid(column=0, row=4, pady=10, padx=10)
 
         self.listbox_otherflights = vtk.Listbox(self, selectmode=vtk.SINGLE,
-            width = 100, height = 10, font = self.font_style("subtitle"))
+                                                width=100, height=10,
+                                                font=self.font_style(
+                                                    "subtitle"))
         self.listbox_otherflights.grid(column=0, row=5, pady=10, padx=10)
         self.listbox_otherflights.bind('<ButtonRelease-1>', lambda
             event: self.details(self.listbox_otherflights, event))
-
 
     def change_data(self, vol: Flight):
         self.vol = vol
@@ -54,9 +58,11 @@ class viewVolDetails(view):
         vols = db.Flight.get_all()
         for index, flight in enumerate(vols):
             if flight != self.vol:
-                if (flight.departure_aeroport == self.vol.departure_aeroport) and (
-                        flight.arrival_aeroport == self.vol.arrival_aeroport):
-                    if (self.vol.DepartureDate - timedelta(days=3)) <= vol.DepartureDate <= (
+                if ((flight.departure_aeroport == self.vol.departure_aeroport)
+                        and (
+                                flight.arrival_aeroport == self.vol.arrival_aeroport)):
+                    if (self.vol.DepartureDate - timedelta(
+                            days=3)) <= vol.DepartureDate <= (
                             self.vol.DepartureDate + timedelta(days=3)):
                         self.dict_vol[index] = flight
                         self.listbox_otherflights.insert(vtk.END, flight)
@@ -65,4 +71,4 @@ class viewVolDetails(view):
         selected_index = listbox.nearest(event.y)
         if selected_index != -1:
             listbox.delete(0, vtk.END)
-            self.change_data(self.dict_vol[selected_index+1])
+            self.change_data(self.dict_vol[selected_index + 1])
