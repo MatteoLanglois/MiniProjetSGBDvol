@@ -67,6 +67,7 @@ class ViewMain(view):
         frame_filter = vtk.Frame(self, relief=vtk.GROOVE, borderwidth=2)
         frame_filter.grid(column=4, row=3, pady=10, padx=10, rowspan=5,
                           columnspan=5)
+
         label_filter = vtk.Label(frame_filter, self.font_style("subtitle"),
                                  text="Filtrer les vols")
         label_filter.grid(column=1, row=1, pady=10, padx=10)
@@ -85,18 +86,22 @@ class ViewMain(view):
         combo_arrivee = ttk.Combobox(frame_filter, values=Aeroport.get_all())
         combo_arrivee.grid(column=1, row=3, pady=10, padx=10)
 
-        calendar = DateEntry(frame_filter, title="Date de départ")
+        calendar = DateEntry(frame_filter, title="Première date de départ")
         calendar.grid(column=1, row=4, pady=10, padx=10)
-
         calendar.set_date(None)
+
+        calendar2 = DateEntry(frame_filter, title="Deuxième date de départ")
+        calendar2.grid(column=1, row=5, pady=10, padx=10)
+
+        calendar2.set_date(None)
 
         button_filter = vtk.Button(frame_filter, self.button_style(),
                                    text="Filtrer", command=lambda: self.filter(
-                combo_depart.get(), combo_arrivee.get(), calendar.get_date()
+                combo_depart.get(), combo_arrivee.get(), calendar.get_date(), calendar2.get_date()
             ))
-        button_filter.grid(column=1, row=5, pady=10, padx=10)
+        button_filter.grid(column=1, row=6, pady=10, padx=10)
 
-    def filter(self, depart: str, arrivee: str, date: datetime.date):
+    def filter(self, depart: str, arrivee: str, date: datetime.date, date2: datetime.date):
         flights = db.Flight.get_all()
         if depart != "":
             flights = [flight for flight in flights if
@@ -106,9 +111,17 @@ class ViewMain(view):
             flights = [flight for flight in flights if
                        db.Aeroport.get_by_id(flight.idArrivalAeroport)
                        .nomAeroport in depart]
-        if date != "":
+        if date != "" and date2 == "":
             flights = [flight for flight in flights if
                        date == flight.DepartureDate.date()]
+        elif date2 != "" and date == "":
+            flights = [flight for flight in flights if
+                       date2 == flight.DepartureDate.date()]
+        elif date != "" and date2 != "":
+            if date > date2:
+                date, date2 = date2, date
+            flights = [flight for flight in flights if
+                       date <= flight.DepartureDate.date() <= date2]
         self.listbox.delete(0, vtk.END)
         self.dict_vol = {}
         for index, vol in enumerate(flights):

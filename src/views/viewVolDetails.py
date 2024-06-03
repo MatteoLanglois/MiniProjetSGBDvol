@@ -56,7 +56,8 @@ class viewVolDetails(view):
         self.label_vol.config(text=vol)
 
         vols = db.Flight.get_all()
-        for index, flight in enumerate(vols):
+        index = 0
+        for _, flight in enumerate(vols):
             if flight != self.vol:
                 if ((flight.departure_aeroport == self.vol.departure_aeroport)
                         and (
@@ -66,6 +67,7 @@ class viewVolDetails(view):
                             self.vol.DepartureDate + timedelta(days=3)):
                         self.dict_vol[index] = flight
                         self.listbox_otherflights.insert(vtk.END, flight)
+                        index += 1
 
     def details(self, listbox, event):
         selected_index = listbox.nearest(event.y)
