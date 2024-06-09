@@ -64,21 +64,22 @@ class viewAccount(view):
                                          text="")
             self.label_error.grid()
 
-            frame_mdp.grid(padx=10, pady=10)
+            frame_mdp.grid(padx=10, pady=10, column=0, row=2)
 
             # Réservations
             frame_reservations = vtk.Frame(self, bd=1, relief=vtk.RIDGE)
+            frame_reservations.grid(padx=10, pady=10, column=1, row=2)
             label_reservations = vtk.Label(frame_reservations, self.font_style("subtitle"),
                                            text="Mes réservations")
             label_reservations.grid(padx=10)
 
-            reservations = db.Reservation.get_by_user(self.controller.userConnected)
+            reservations = db.Reservation.get_by_user(self.controller.userConnected.idUser)
             listbox_reservations = vtk.Listbox(frame_reservations, selectmode=vtk.SINGLE, width=100,
                                                   height=10, font=self.font_style("subtitle"))
             listbox_reservations.grid(padx=10)
 
             for reservation in reservations:
-                listbox_reservations.insert(vtk.END, reservation)
+                listbox_reservations.insert(vtk.END, reservation.print())
 
 
 

@@ -34,8 +34,15 @@ class Reservation(base):
     def __repr__(self):
         return f"<Reservation {self.idUser} {self.idFlight}>"
 
-    def __str(self):
+    def __str__(self):
         return f"Réservation {self.idUser} {self.idFlight}"
+
+    def print(self):
+        import src.model as db
+        flight = db.Flight.get_by_id(self.idFlight)
+        return (f"{flight.DepartureDate} : "
+                f"{db.Aeroport.get_by_id(flight.idArrivalAeroport)} - "
+                f"{db.Aeroport.get_by_id(flight.idArrivalAeroport)}")
 
     @staticmethod
     def get_by_user(idUser: int) -> List['Reservation']:

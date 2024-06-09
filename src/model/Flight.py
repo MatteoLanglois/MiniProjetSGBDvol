@@ -5,6 +5,11 @@ from typing import List
 from datetime import datetime
 from src.model.Aeroport import Aeroport
 
+"""
+Classe Flight
+
+Cette classe permet de gérer les vols. Elle hérite de la classe base.
+"""
 
 class Flight(base):
     __tablename__ = "Flight"
@@ -26,6 +31,20 @@ class Flight(base):
     arrival_aeroport = relationship('Aeroport', backref='arrival_aeroport',
                                     foreign_keys='Flight.idArrivalAeroport')
 
+    allVols = []
+
+    """
+    Constructeur de la classe Flight
+    
+    :param Price: Prix du vol
+    :param DepartureDate: Date de départ
+    :param ArrivalDate: Date d'arrivée
+    :param PlaneName: Nom de l'avion
+    :param FlightCapacity: Capacité du vol
+    :param idFlightCompany: Identifiant de la compagnie de vol
+    :param idDepartureAeroport: Identifiant de l'aéroport de départ
+    :param idArrivalAeroport: Identifiant de l'aéroport d'arrivée
+    """
     def __init__(self, Price, DepartureDate, ArrivalDate, PlaneName,
                  FlightCapacity, idFlightCompany, idDepartureAeroport,
                  idArrivalAeroport, **kw: Any):
@@ -46,11 +65,22 @@ class Flight(base):
         self.idDepartureAeroport = idDepartureAeroport
         self.idArrivalAeroport = idArrivalAeroport
 
+    """
+    Méthode __repr__
+    
+    Cette méthode permet de retourner une représentation de l'objet
+    """
     def __repr__(self):
         return (f"<Flight {self.idFlight} {self.idDepartureAeroport} "
                 f"{self.idArrivalAeroport} {self.DepartureDate} "
                 f"{self.ArrivalDate}>")
 
+    """
+    Méthode __str__
+    
+    Cette méthode permet de retourner une chaîne de caractères représentant
+    l'objet
+    """
     def __str__(self):
         return (f"{Aeroport.get_by_id(self.idDepartureAeroport).villeAeroport}"
                 f" - {Aeroport.get_by_id(self.idArrivalAeroport).villeAeroport}"
@@ -68,7 +98,9 @@ class Flight(base):
 
     @staticmethod
     def get_all() -> List['Flight']:
-        return session.query(Flight).all()
+        if len(Flight.allVols) == 0:
+            Flight.allVols = session.query(Flight).all()
+        return Flight.allVols
 
     @staticmethod
     def get_departure_airport(idFlight: int) -> 'Aeroport':
