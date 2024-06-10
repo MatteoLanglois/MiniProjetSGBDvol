@@ -160,9 +160,13 @@ class VolApp(vtk.Tk):
     Méthode permettant de réserver un vol
     """
     def reserver(self, vol) -> None:
-        reservation = db.Reservation(self.userConnected.idUser, vol.idFlight)
-        db.session.add(reservation)
-        db.session.commit()
+        try:
+            reservation = db.Reservation(self.userConnected.idUser, vol.idFlight)
+            db.session.add(reservation)
+            db.session.commit()
+        except ValueError:
+            self.error_message("Erreur",
+                               "La réservation existe déjà.")
 
 
 if __name__ == '__main__':
